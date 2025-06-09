@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tower of Hanoi Solution (3 Disks) - Tagged Format</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; padding: 20px; max-width: 800px; margin: auto; }
+        h1 { color: #333; }
+        h2 { color: #555; }
+        ul { list-style-type: decimal; padding-left: 20px; }
+        li { margin-bottom: 8px; font-family: monospace; }
+        .explanation { background-color: #f0f0f0; border-left: 4px solid #007bff; padding: 10px; margin-bottom:20px;}
+        .footer { margin-top: 30px; font-size: 0.9em; color: #777; }
+    </style>
+</head>
+<body>
+    <h1>Tower of Hanoi Solution - Tagged Format</h1>
+    <h2>Problem: 3 Disks</h2>
+    <p>The objective of the Tower of Hanoi puzzle is to move the entire stack of disks from the source rod (A) to the destination rod (C), obeying the following simple rules:</p>
+    <ul>
+        <li>Only one disk can be moved at a time.</li>
+        <li>Each move consists of taking the upper disk from one of the stacks and placing it on top of another stack or on an empty rod.</li>
+        <li>No larger disk may be placed on top of a smaller disk (disks are numbered 1 to N, where 1 is the smallest).</li>
+    </ul>
+
+    <div class="explanation">
+        <p><strong>Move Tag Format:</strong></p>
+        <p>Each move is represented by a tag: <code>MD&lt;disk_number&gt;&lt;source_peg&gt;&lt;destination_peg&gt;</code></p>
+        <ul>
+            <li><code>M</code>: Stands for Move.</li>
+            <li><code>D</code>: Stands for Disk.</li>
+            <li><code>&lt;disk_number&gt;</code>: The number of the disk being moved (e.g., 1, 2, ..., 3).</li>
+            <li><code>&lt;source_peg&gt;</code>: The peg the disk is moved FROM (A, B, or C).</li>
+            <li><code>&lt;destination_peg&gt;</code>: The peg the disk is moved TO (A, B, or C).</li>
+        </ul>
+        <p>Example: <code>MD1AC</code> means "Move disk 1 from peg A to peg C".</p>
+    </div>
+
+    <h2>Solution Steps (Source: A, Destination: C, Auxiliary: B):</h2>
+    <p>The disks are numbered 1 (smallest) to 3 (largest).</p>
+    <ul>
+        <li>1. MD1AC</li>
+        <li>2. MD2AB</li>
+        <li>3. MD1CB</li>
+        <li>4. MD3AC</li>
+        <li>5. MD1BA</li>
+        <li>6. MD2BC</li>
+        <li>7. MD1AC</li>
+    </ul>
+    <p class="footer">Total moves: 7 (which is $2^3 - 1$)</p>
+</body>
+</html>

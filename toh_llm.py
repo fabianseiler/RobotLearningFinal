@@ -15,6 +15,17 @@ class TowerOfHanoiState:
         self.data = self.load_json()
         self.moves = []
 
+    def convert_move(self, llm_cmd: str) -> str:
+        """
+        Converts the LLM command to an appropriate move for the simulation
+        """
+        colors = {"1": "Blue",
+                  "2": "Red",
+                  "3": "Green",
+                  "4": "Orange",
+                  "5": "Yellow"}
+        return colors[llm_cmd[2]] + llm_cmd[3:]
+
     def load_json(self):
         try:
             with open(self.json_file_path, 'r') as f:
@@ -70,9 +81,13 @@ class TowerOfHanoiState:
 
     def save_with_moves(self, output_file=None):
         if output_file is None:
-            output_file = self.json_file_path.replace('.json', '_with_moves.json')
+            output_file = self.json_file_path.replace('.json', '_solution.json')
 
-        self.data["moves"] = self.moves
+        self.data["moves"] = []
+        for move in self.moves:
+            dmp_move = self.convert_move(move)
+            self.data["moves"].append(dmp_move)
+            print(f"Moving {move}: {dmp_move}")
 
         try:
             with open(output_file, 'w') as f:
@@ -278,7 +293,7 @@ def solve_with_retry(chain, game_state, max_attempts=3):
 # Main execution flow
 def main():
     print("Loading game state...")
-    game_state = TowerOfHanoiState("./templat.json")
+    game_state = TowerOfHanoiState("./States_positions.json")
     if game_state.data is None:
         print("Failed to load JSON")
         return

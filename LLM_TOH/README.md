@@ -1,6 +1,39 @@
 # TOH solver
 ![Overview](Overview.png)
 This directory contains the LLM that solves the game in the green part of the above overview:
+
+# class TowerOfHanoiState:
+## __init__(self, json_file_path) 
+Initializes the game by loading JSON state and saving the initial state.
+## convert_move(self, llm_cmd: str) -> str
+Converts compact move code (MD3AC) into a readable format with color (GreenAC).
+## load_json(self)
+Returns the current state of all pegs as a formatted string.
+## apply_move(self, move_code)
+Validates and applies a single move; checks move legality and updates the state.
+## is_solved(self)
+Returns True if all disks are correctly on peg C; else False.
+## save_with_moves(self, output_file=None)
+Saves the current game state and executed moves to a new JSON file.
+## reset_to_initial_state(self)
+Resets the game state to its original loaded state.
+## validate_move_sequence(self, moves)
+Checks a sequence of moves for validity without changing the real game state.
+
+## How they interact
+__init__ + load_json → Load the game state from file.
+
+apply_move → Used to progress the game safely.
+
+convert_move + save_with_moves → Log and store move history.
+
+get_current_state_string → Supplies state info to the LLM.
+
+validate_move_sequence → Pre-checks move suggestions before applying.
+
+is_solved → Checks if the end condition is reached.
+
+reset_to_initial_state → Allows retrying or re-evaluating the game.
 # USAGE:
 ### Execute
     python toh_llm.py

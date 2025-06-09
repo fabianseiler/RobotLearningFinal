@@ -293,7 +293,7 @@ def solve_with_retry(chain, game_state, max_attempts=3):
 # Main execution flow
 def main():
     print("Loading game state...")
-    game_state = TowerOfHanoiState("./States_positions.json")
+    game_state = TowerOfHanoiState("States_positions.json")
     if game_state.data is None:
         print("Failed to load JSON")
         return

@@ -42,13 +42,22 @@
       "1"
     ]
   },
+  "init_states": {
+    "A": [],
+    "B": [
+      "3",
+      "2",
+      "1"
+    ],
+    "C": []
+  },
   "moves": [
-    "BlueBC",
-    "RedBA",
-    "BlueCA",
-    "GreenBC",
-    "BlueAB",
-    "RedAC",
-    "BlueBC"
+    "MD1BC",
+    "MD2BA",
+    "MD1CA",
+    "MD3BC",
+    "MD1AB",
+    "MD2AC",
+    "MD1BC"
   ]
 }

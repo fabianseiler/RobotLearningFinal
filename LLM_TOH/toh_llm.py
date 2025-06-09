@@ -14,6 +14,8 @@ class TowerOfHanoiState:
         self.json_file_path = json_file_path
         self.data = self.load_json()
         self.moves = []
+        self.data["init_states"] = copy.deepcopy(self.data['states'])
+
 
     def convert_move(self, llm_cmd: str) -> str:
         """
@@ -83,6 +85,7 @@ class TowerOfHanoiState:
         if output_file is None:
             output_file = self.json_file_path.replace('.json', '_solution.json')
 
+        #self.data["moves"] = self.moves
         self.data["moves"] = []
         for move in self.moves:
             dmp_move = self.convert_move(move)
@@ -294,6 +297,7 @@ def solve_with_retry(chain, game_state, max_attempts=3):
 def main():
     print("Loading game state...")
     game_state = TowerOfHanoiState("States_positions.json")
+    init_state = copy.deepcopy(game_state)
     if game_state.data is None:
         print("Failed to load JSON")
         return

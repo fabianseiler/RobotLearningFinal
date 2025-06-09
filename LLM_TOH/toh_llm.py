@@ -6,6 +6,9 @@ from rag_call import load_documents, OllamaEmbeddings, RecursiveCharacterTextSpl
 from rag_call import Chroma, ChatPromptTemplate, ChatOllama, RunnablePassthrough, StrOutputParser
 from toh_visual import TowerOfHanoi, parse_and_move
 from matplotlib import pyplot as plt
+from langchain.schema import Document
+
+from Interface_coords_llm import SpaceModel
 
 
 # Manages Tower of Hanoi game state and move validation
@@ -141,7 +144,6 @@ class TowerOfHanoiState:
 
 
 def load_documents_with_json(sources):
-    from langchain.schema import Document
 
     all_docs = []
 
@@ -295,6 +297,12 @@ def solve_with_retry(chain, game_state, max_attempts=3):
 
 # Main execution flow
 def main():
+
+    # Update State positions
+    Space = SpaceModel("States_positions.json",
+                       x_dev=0.1, y_dev=0.1)
+    Space.write_states(json_file="States_positions.json")
+
     print("Loading game state...")
     game_state = TowerOfHanoiState("States_positions.json")
     init_state = copy.deepcopy(game_state)
@@ -311,9 +319,7 @@ def main():
     ]
 
     chain = setup_simple_rag(sources)
-    if chain is None:
-        print("Failed to setup RAG")
-        return
+    assert chain is not None, "Failed to setup RAG"
 
     print("--- Starting solver ---")
     success = solve_with_retry(chain, game_state, max_attempts=5)

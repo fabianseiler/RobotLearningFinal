@@ -1,4 +1,4 @@
-# Tower of Hanoi mit OpenManipulator in Gazebo
+# Execution of DMPs for ToH motions in GAZEBO
 
 ## Startanleitung
 `gazebo_ros_link_attacher` muss hinzugefügt werden. Dafür den Ordner einfach unter /src/ ablegen. Danch ``catkin_make`` ausführen und ``devel/setup.bash``.

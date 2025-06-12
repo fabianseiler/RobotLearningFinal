@@ -1,5 +1,6 @@
 from collections import defaultdict
 import json
+import copy
 
 
 class SpaceModel:
@@ -7,6 +8,8 @@ class SpaceModel:
 
         with open(json_file, "r") as f:
             self.data = json.load(f)
+
+        self.dict_coords = copy.deepcopy(self.data["positions"])
 
         coordinates = self.data["positions"]
         for cube in coordinates:
@@ -63,6 +66,8 @@ class SpaceModel:
                     )
             toh_state.append([label for _, label in sorted_stack])
 
+        toh_state = [state[::-1] if len(state) >= 1 else state for state in toh_state]
+
         return toh_state
 
     def print_state(self):
@@ -81,7 +86,13 @@ class SpaceModel:
         return state
 
     def write_states(self, json_file):
-        self.data["states"] = self.toh_state
+        toh_state = self.toh_state
+
+        toh_state = {"A": toh_state[0],
+                     "B": toh_state[1],
+                     "C": toh_state[2]}
+        self.data["positions"] = self.dict_coords
+        self.data["states"] = toh_state
         with open(json_file, "w") as f:
             json.dump(self.data, f)
 

@@ -131,25 +131,59 @@ class TOH:
         rospy.loginfo("Returning current tower configuration.")
         # Return a copy of the dictionary to avoid unwanted external modifications
         return {tower_name: list(blocks) for tower_name, blocks in self.towers.items()}
-        
-        
+
+
+def process_hanoi_commands(commands, toh):
+    block_map = {
+        '1': 'green_cube',
+        '2': 'red_cube',
+        '3': 'blue_cube'
+    }
+
+    for cmd in commands:
+        if not cmd.startswith("MD") or len(cmd) != 5:
+            rospy.logwarn(f"Ungültiger Befehl übersprungen: {cmd}")
+            continue
+
+        block_id = cmd[2]
+        from_tower = cmd[3]
+        to_tower = cmd[4]
+
+        if block_id not in block_map:
+            rospy.logwarn(f"Unbekannter Block {block_id} in Befehl {cmd}")
+            continue
+
+        cube_name = block_map[block_id]
+        towers = toh.get_tower_configuration()
+
+        # Prüfen, ob Block oben auf dem angegebenen "from_tower" liegt
+        if towers[from_tower] and towers[from_tower][-1] == cube_name:
+            rospy.loginfo(f"Ausführen von Befehl: {cmd} ({cube_name} von {from_tower} nach {to_tower})")
+            toh.execute_pick_and_place(cube_name, to_tower)
+        else:
+            rospy.logwarn(f"Block {cube_name} ist nicht oben auf Turm {from_tower}, Befehl {cmd} übersprungen.")
+
+
 if __name__ == '__main__':
     try:
-        # Adjust joint names as needed
         joint_names = ['joint1','joint2','joint3','joint4','joint5','joint6']
         toh = TOH(joint_names=joint_names,
-                    tower_a=['green_cube'],
-                    tower_b=['red_cube'],
-                    tower_c=['blue_cube'])
-        # execute Tower of Hanoi   
-        # -->         
-       
-        print(toh.get_tower_configuration())
-        toh.execute_pick_and_place("red_cube",'A')
-        print(toh.get_tower_configuration())
-        toh.execute_pick_and_place("blue_cube",'A')
-        print(toh.get_tower_configuration())
+                  tower_a=['green_cube'], 
+                  tower_b=['red_cube'],
+                  tower_c=['blue_cube'])
 
+        # Beispiel-Kommandoliste
+
+        # green 1
+        # red   2
+        # blue  3
+        command_list = ["MD3CB"] 
+
+        process_hanoi_commands(command_list, toh)
+
+        # Zeige Endzustand
+        print(toh.get_tower_configuration())
 
     except rospy.ROSInterruptException:
         pass
+

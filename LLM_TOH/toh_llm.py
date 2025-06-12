@@ -137,8 +137,20 @@ class TowerOfHanoiState:
                 if dest_top_disk < disk:
                     return False, f"Move {i + 1} ({move_code}): Cannot place disk {disk} on smaller disk {dest_top_disk}"
 
+
             moved_disk = temp_states[from_peg].pop()
             temp_states[to_peg].append(moved_disk)
+            # Check if solved after this move
+            c_disks = [int(x) for x in temp_states["C"]] if temp_states["C"] else []
+            is_solved = (len(c_disks) == 3 and
+                         c_disks == [3, 2, 1] and
+                         not temp_states["A"] and
+                         not temp_states["B"])
+
+            if is_solved:
+                # Return only the moves needed up to this point
+                needed_moves = moves[:i + 1]
+                return True, f"Solved after {i + 1} moves: {needed_moves}"
 
         return True, "All moves are valid"
 

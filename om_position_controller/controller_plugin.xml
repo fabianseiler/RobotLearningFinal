@@ -1,0 +1,7 @@
+<library path="lib/libom_position_controller">
+  <class name="om_position_controller/PositionController" type="om_position_controller::PositionController" base_class_type="controller_interface::ControllerBase">
+    <description>
+      PositionController for robotic manipulators.
+    </description>
+  </class>
+</library>

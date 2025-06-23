@@ -185,6 +185,17 @@ if __name__ == '__main__':
                   tower_b=['red_cube'],
                   tower_c=['blue_cube'])
 
+        #------------------
+        # To load command list and initial states via json file use the following code
+        #with open("./States_positions_solution.json", "r") as f:
+        #    output_states = json.load(f)
+        #command_list = output_states["moves"]
+        #states= output_states["init_states"]
+        #print("Initial Tower Configuration:", states)
+        #command_list = ["MD1BA","MD2BC","MD1AC" ]
+        #toh.towers = states
+        #print("Initial Tower Configuration:", toh.get_tower_configuration())
+        #----------------
         # Beispiel-Kommandoliste
 
         # green 1
@@ -194,7 +205,6 @@ if __name__ == '__main__':
 
         process_hanoi_commands(command_list, toh)
 
-        # Zeige Endzustand
         print(toh.get_tower_configuration())
 
     except rospy.ROSInterruptException:
